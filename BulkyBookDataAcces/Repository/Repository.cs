@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BulkyBook.DataAcces.Repository
 {
-    public class Repository<T> : IRepository<T> where T : class
+    public class Repository<T> :IRepository<T> where T : class
     {
         private readonly ApplicationDbContext _db;
         public DbSet<T> DbSet { get; set; }
@@ -26,15 +26,29 @@ namespace BulkyBook.DataAcces.Repository
             DbSet.Add(entity);
         }
 
-        public IEnumerable<T> GetAll()
+        public IEnumerable<T> GetAll(string? includeProperties=null)
         {
             IQueryable<T> query = DbSet;
+            if (includeProperties != null)
+            {
+                foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProperty);
+                }
+            }
             return query.ToList();
         }
 
-        public T GetFirstOrDefault(Expression<Func<T, bool>> filter)
+        public T GetFirstOrDefault(Expression<Func<T, bool>> filter, string? includeProperties = null)
         {
            IQueryable<T> query = DbSet;
+            if (includeProperties != null)
+            {
+                foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProperty);
+                }
+            }
             query = query.Where(filter);
             return query.FirstOrDefault();
         }
