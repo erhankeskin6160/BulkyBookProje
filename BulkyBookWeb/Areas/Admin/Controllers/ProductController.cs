@@ -161,7 +161,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var product = _unitOfWork.Product.GetAll("Category,CoverType");
+            var product = _unitOfWork.Product.GetAll(null,"Category,CoverType");
             return Json(new { data = product });
          }
 

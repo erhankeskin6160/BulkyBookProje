@@ -1,5 +1,5 @@
 ﻿ 
- @model ShoppingCart
+ @model BulkyBook.Models.ShoppingCart
 @{
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -8,6 +8,7 @@
 <h1>Details</h1>
 
 <form method="post">
+
     <input hidden asp-for="Product.Id" />
     <div class="card  container pt-4">
         <div class="card-header bg-primary text-light ml-0  row ">

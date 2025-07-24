@@ -1,0 +1,92 @@
+﻿@model ShopCartVm
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form method="post">
+	<br />
+	<div class="container">
+		<div class="card">
+			<div class="card-header bg-dark text-light ml-0">
+				<div class="row">
+					<div class="col-6  pt-2">
+						<i class="fa fa-shopping-cart"></i> &nbsp;
+						Shopping Cart
+					</div>
+					<div class="col-6 text-end">
+						<a asp-area="Customer" asp-controller="Home" asp-action="Index" class="btn btn-outline-info btn-sm">Continue Shopping</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="card-body">
+				@foreach (var item in Model.ListCart)
+				{
+					<div class="row">
+						<div class="d-none d-lg-block col-lg-1 text-center py-2">
+							<img src="@item.Product.ImageUrl" class="rounded" width="100%" />
+						</div>
+						<div class="col-12 col-lg-6 pt-md-3">
+							<h5><strong>@item.Product.Title</strong></h5>
+							<p><small>@Html.Raw(item.Product.Description)</small></p>
+						</div>
+						<div class="col-12  col-lg-5 text-center row">
+							<div class="col-4 text-md-right pt-4">
+								<h6>
+									<strong>
+										@item.Price.ToString("c")
+										<span class="text-muted">&nbsp;x&nbsp;</span>@item.Count
+									</strong>
+								</h6>
+							</div>
+							<div class="col-6 col-sm-4 col-lg-6 pt-2">
+								<div class="w-75 btn-group" role="group">
+									<a asp-action="plus" asp-route-cartId="@item.Id" class="btn btn-primary">
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-patch-plus" viewBox="0 0 16 16">
+											<path fill-rule="evenodd" d="M8 5.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V10a.5.5 0 0 1-1 0V8.5H6a.5.5 0 0 1 0-1h1.5V6a.5.5 0 0 1 .5-.5" />
+											<path d="m10.273 2.513-.921-.944.715-.698.622.637.89-.011a2.89 2.89 0 0 1 2.924 2.924l-.01.89.636.622a2.89 2.89 0 0 1 0 4.134l-.637.622.011.89a2.89 2.89 0 0 1-2.924 2.924l-.89-.01-.622.636a2.89 2.89 0 0 1-4.134 0l-.622-.637-.89.011a2.89 2.89 0 0 1-2.924-2.924l.01-.89-.636-.622a2.89 2.89 0 0 1 0-4.134l.637-.622-.011-.89a2.89 2.89 0 0 1 2.924-2.924l.89.01.622-.636a2.89 2.89 0 0 1 4.134 0l-.715.698a1.89 1.89 0 0 0-2.704 0l-.92.944-1.32-.016a1.89 1.89 0 0 0-1.911 1.912l.016 1.318-.944.921a1.89 1.89 0 0 0 0 2.704l.944.92-.016 1.32a1.89 1.89 0 0 0 1.912 1.911l1.318-.016.921.944a1.89 1.89 0 0 0 2.704 0l.92-.944 1.32.016a1.89 1.89 0 0 0 1.911-1.912l-.016-1.318.944-.921a1.89 1.89 0 0 0 0-2.704l-.944-.92.016-1.32a1.89 1.89 0 0 0-1.912-1.911z" />
+										</svg>
+									</a> &nbsp;
+									<a asp-action="Minus" asp-route-cartId="@item.Id" class="btn btn-warning">
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-patch-minus" viewBox="0 0 16 16">
+											<path fill-rule="evenodd" d="M5.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1-.5-.5" />
+											<path d="m10.273 2.513-.921-.944.715-.698.622.637.89-.011a2.89 2.89 0 0 1 2.924 2.924l-.01.89.636.622a2.89 2.89 0 0 1 0 4.134l-.637.622.011.89a2.89 2.89 0 0 1-2.924 2.924l-.89-.01-.622.636a2.89 2.89 0 0 1-4.134 0l-.622-.637-.89.011a2.89 2.89 0 0 1-2.924-2.924l.01-.89-.636-.622a2.89 2.89 0 0 1 0-4.134l.637-.622-.011-.89a2.89 2.89 0 0 1 2.924-2.924l.89.01.622-.636a2.89 2.89 0 0 1 4.134 0l-.715.698a1.89 1.89 0 0 0-2.704 0l-.92.944-1.32-.016a1.89 1.89 0 0 0-1.911 1.912l.016 1.318-.944.921a1.89 1.89 0 0 0 0 2.704l.944.92-.016 1.32a1.89 1.89 0 0 0 1.912 1.911l1.318-.016.921.944a1.89 1.89 0 0 0 2.704 0l.92-.944 1.32.016a1.89 1.89 0 0 0 1.911-1.912l-.016-1.318.944-.921a1.89 1.89 0 0 0 0-2.704l-.944-.92.016-1.32a1.89 1.89 0 0 0-1.912-1.911z" />
+										</svg>
+									</a>
+								</div>
+
+							</div>
+							<div class="col-2 col-sm-4 col-lg-2 text-right pt-2">
+								<a asp-action="remove" asp-route-cartId="@item.Id" class="btn btn-danger">
+									<i class="bi bi-trash-fill"></i>
+								</a>
+							</div>
+						</div>
+					</div>
+					<hr />
+				}
+				<div class="row">
+					<div class="col-12 col-md-6 offset-md-6 col-lg-4 offset-lg-8 pr-4">
+						<ul class="list-group">
+							<li class="list-group-item d-flex justify-content-between bg-light">
+								<span class="text-info"> Total (USD)</span>
+ 								<strong class="text-info">@Model.CartTotal.ToString("c")</strong>
+ 						</li>
+						</ul>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="card-footer">
+				<div class="card-footer row">
+					<div class="col-sm-12 col-lg-4 col-md-6 offset-lg-8 offset-md-6 ">
+						<a asp-action="Summary" class="btn btn-success form-control">Summary</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+

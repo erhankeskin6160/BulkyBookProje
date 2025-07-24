@@ -18,7 +18,7 @@ namespace BulkyBook.DataAcces.Repository
         public Repository(ApplicationDbContext db )
         {
             _db = db;
-            this.DbSet = _db.Set<T>();
+            DbSet = _db.Set<T>();
         }
 
         public void Add(T entity)
@@ -26,9 +26,14 @@ namespace BulkyBook.DataAcces.Repository
             DbSet.Add(entity);
         }
 
-        public IEnumerable<T> GetAll(string? includeProperties=null)
+        public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter=null,string? includeProperties=null)
         {
             IQueryable<T> query = DbSet;
+            if (filter != null)
+            {
+
+                query = query.Where(filter);
+            }
             if (includeProperties != null)
             {
                 foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
